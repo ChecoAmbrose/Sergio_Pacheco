@@ -1,5 +1,13 @@
+print("Hola Cinvestav!")
 
 print('Ingresa un valor: ', end='')
-x=input()
+x=int(input())
 
-print("\nX es ", x)
+print("\nTu valor es: ", x)
+
+print('Ingresa un número a sumar: ', end='')
+suma=int(input())
+
+x += suma
+
+print(f'El resultado es: ',x)
