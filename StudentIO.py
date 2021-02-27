@@ -64,4 +64,4 @@ def actualizar(estu, contrasena):
 def borrar(estu):
     with conexion:
         c.execute("DELETE from estudiantes WHERE nombre = :nombre AND apellido = :apellido",
-                  {'nombre': estu.nombre, 'apellido': estu.apellido})
+                  {'nombre': estu.nombre, 'apellido': estu.apellido}
