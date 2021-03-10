@@ -1,3 +1,4 @@
+# [PV] La tarea era para revisar la compresion del los temas Pickle y Shelve.
 import sqlite3
 
 

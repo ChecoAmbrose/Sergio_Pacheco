@@ -4,6 +4,8 @@ from EstudiantesMongo import actualizar
 from EstudiantesMongo import eliminar
 import re
 import sys
+
+# [PV] En clase se vio la libreria PySide, no es posible realizar la revision
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QLineEdit
 

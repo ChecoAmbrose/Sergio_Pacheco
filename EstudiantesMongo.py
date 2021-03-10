@@ -13,6 +13,7 @@ class Estudiantes(Document):
 
 # Funciones
 # Guardar estudiantes, la función recibe t o d o el dirrecionario estudiantes
+# [PV] El parametro es una instancia (objeto) de la clase Estudiantes
 def agregar(Estudiantes):
     Estudiantes.save()  # Comentado para no crear multiples bases de datos iguales
     #print(f'Nombre: {Estudiantes.nombre} \nCorreo: {Estudiantes.correo} \nContrasena: {Estudiantes.contrasena} \nMaterias: {Estudiantes.materias}')
