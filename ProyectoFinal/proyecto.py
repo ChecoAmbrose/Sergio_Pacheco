@@ -1,5 +1,6 @@
 from estudiante import Estudiante
 import sys
+import re
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QLineEdit, QFileDialog
 from cliente import cliente
@@ -24,7 +25,7 @@ class proyecto(QMainWindow):
         puerto = self.puerto.currentItem().text()
         puerto = int(puerto)
         res = self.cliente.conectar(puerto)
-        print(res)
+        self.consola.append(res)
         self.puerto.setEnabled(False)
 
         if puerto == 9999 :
@@ -34,17 +35,28 @@ class proyecto(QMainWindow):
             self.botonEnviar.setEnabled(True)
         else:
             self.puerto.setEnabled(True)
-            print(f'La conexión por el puerto {puerto} no es útil para este programa')
+            mensaje = f'La conexión por el puerto {puerto} no es útil para este programa'
+            self.consola.append(mensaje)
+            self.cliente.desconectar()
 
 
     def lista(self):
+        patroncorreo = "\S+[@]\S+[.]+[a-z]{2,3}$"
         nombre = self.nombre.text()
         correo = self.correo.text()
         password = self.password.text()
-        estudiante = Estudiante(nombre, correo, password)
+        match = re.match(patroncorreo, correo)
+        if match:
+            estudiante = Estudiante(nombre, correo, password)
+            res = self.cliente.enviar(estudiante)
+            self.consola.append(res)
+            self.botonLista.setEnabled(False)
+            self.puerto.setEnabled(True)
+        else:
+            #self.salida.append('Correo invalido, no se pudo agregar usuario')
+            self.consola.insertHtml('<p style="color: red"><br>Correo invalido, no se pudo agregar usuario </p>')
+            self.consola.insertHtml('<p style="color: black"><br></p>')
 
-        res = self.cliente.enviar(estudiante)
-        print(res)
 
     def abrirarchivo(self):
         archivo = QFileDialog.getOpenFileName(filter='*.zip')
@@ -53,12 +65,14 @@ class proyecto(QMainWindow):
     def archivozip(self):
         archivo = self.archivo.text()
         if archivo == 'Ruta del archivo...':
-            print("No has seleccionado nada!!")
+            mensaje = "No has seleccionado nada!!"
+            self.consola.setText(mensaje)
         else:
             zip = open(archivo, 'rb')
             res = self.cliente.enviar(zip.read())
-            print(res)
+            self.consola.append(res)
             self.puerto.setEnabled(True)
+            self.botonEnviar.setEnabled(False)
 
 if __name__ == '__main__':
     app = QApplication([])

@@ -27,12 +27,12 @@ class cliente:
         else:
             self.conexion.send(b'INI')
             res = self.conexion.recv(1024)
-            print(res.decode())
+            final = res
 
             if len(serializado) < 1024:
                 self.conexion.send(serializado)
                 res = self.conexion.recv(1024)
-                print(res.decode())
+                final = final + res
 
             else:
                 continuar = True
@@ -47,10 +47,11 @@ class cliente:
 
                     self.conexion.send(chunk)
                     res = self.conexion.recv(1024)
-                    print(res.decode())
+                    final = final + res
 
                     inicio += 1024
 
             self.conexion.send(b'FIN')
             res = self.conexion.recv(1024)
-            return res.decode()
+            final = final + res
+            return final.decode()
